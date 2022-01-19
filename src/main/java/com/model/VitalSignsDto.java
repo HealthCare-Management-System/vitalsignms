@@ -9,7 +9,7 @@ public class VitalSignsDto {
 	private String bodyTemperature;
 	private String respirationRate;
 	private String dateTime;
-	private UserDto patientInfoId;
+	private PatientDetailsDto patientInfoId;
 	private UserDto employeeId;
 
 	public int getId() {
@@ -68,11 +68,13 @@ public class VitalSignsDto {
 		this.dateTime = dateTime;
 	}
 
-	public UserDto getPatientInfoId() {
+
+
+	public PatientDetailsDto getPatientInfoId() {
 		return patientInfoId;
 	}
 
-	public void setPatientInfoId(UserDto patientInfoId) {
+	public void setPatientInfoId(PatientDetailsDto patientInfoId) {
 		this.patientInfoId = patientInfoId;
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import com.citius.vitalsignms.entity.VitalSigns;
 import com.citius.vitalsignms.repo.VitalSignsRepo;
 import com.citius.vitalsignms.service.VitalSignsService;
+import com.model.PatientDetailsDto;
 import com.model.UserDto;
 import com.model.VitalSignsDto;
 
@@ -56,10 +57,15 @@ public class VitalSignsServiceImpl implements VitalSignsService{
     }
 	
 	
-	public UserDto getUserDtoFromUserMs(int id) {
-		
+	public UserDto getUserDtoFromUserMs(int id) {		
 		ResponseEntity<UserDto> response = restTemplate.getForEntity("http://localhost:8081/users/users/"+id,
 				UserDto.class);
+		return response.getBody();
+	}
+	
+	public PatientDetailsDto getPatientInfoDtoFromPatientMs(int id) {		
+		ResponseEntity<PatientDetailsDto> response = restTemplate.getForEntity("http://localhost:8084/patientdetails/"+id,
+				PatientDetailsDto.class);
 		return response.getBody();
 	}
 	
@@ -75,7 +81,7 @@ public class VitalSignsServiceImpl implements VitalSignsService{
 		dto.setWeight(vitalSigns.getWeight());
 		
 		dto.setEmployeeId(getUserDtoFromUserMs(vitalSigns.getEmployeeId()));
-		dto.setPatientInfoId(getUserDtoFromUserMs(vitalSigns.getPatientInfoId()));
+		dto.setPatientInfoId(getPatientInfoDtoFromPatientMs(vitalSigns.getPatientInfoId()));
 		
 		return dto;
 
