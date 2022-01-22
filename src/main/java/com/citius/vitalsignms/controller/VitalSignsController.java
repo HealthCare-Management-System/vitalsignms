@@ -41,8 +41,19 @@ public class VitalSignsController {
 	    }      
 	}
 	
+	@GetMapping("/patient/{id}")
+	public ResponseEntity<VitalSignsDto> getByPatientId(@PathVariable Integer id) {
+	    try {
+	    	VitalSignsDto vitalSigns = service.getByPatientId(id);
+	        return new ResponseEntity<VitalSignsDto>(vitalSigns, HttpStatus.OK);
+	    } catch (NoSuchElementException e) {
+	        return new ResponseEntity<VitalSignsDto>(HttpStatus.NOT_FOUND);
+	    }      
+	}
+	
 	@PostMapping
 	public ResponseEntity<VitalSignsDto> add(@RequestBody VitalSignsDto vitalSigns) {
+		System.out.println("inside Vital controller");
 	    return new ResponseEntity<VitalSignsDto>(service.save(vitalSigns), HttpStatus.OK);
 	}
 	

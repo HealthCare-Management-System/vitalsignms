@@ -6,4 +6,5 @@ import com.citius.vitalsignms.entity.VitalSigns;
 
 public interface VitalSignsRepo extends JpaRepository<VitalSigns, Integer> {
 
+	VitalSigns findByPatientInfoId(int id);
 }

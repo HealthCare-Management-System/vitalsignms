@@ -11,6 +11,8 @@ public interface VitalSignsService {
 	public VitalSignsDto save(VitalSignsDto vitalSigns);
 
 	public VitalSignsDto get(Integer id);
+	
+	public VitalSignsDto getByPatientId(Integer id);
 
 	public void delete(Integer id);
 }

@@ -1,5 +1,7 @@
 package com.citius.vitalsignms.service.impl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,63 +17,69 @@ import com.model.PatientDetailsDto;
 import com.model.UserDto;
 import com.model.VitalSignsDto;
 
-
-
-
 @Service
-public class VitalSignsServiceImpl implements VitalSignsService{
+public class VitalSignsServiceImpl implements VitalSignsService {
 
 	@Autowired
-    private VitalSignsRepo repo;
-	
+	private VitalSignsRepo repo;
+
 	@Autowired
 	private RestTemplate restTemplate;
-     
+
 	@Override
-    public List<VitalSignsDto> listAll() {
-		List<VitalSignsDto> dtolist=new ArrayList<>();
-		List<VitalSigns> entitylist=repo.findAll();
-		for(VitalSigns vs:entitylist) {
-			
+	public List<VitalSignsDto> listAll() {
+		List<VitalSignsDto> dtolist = new ArrayList<>();
+		List<VitalSigns> entitylist = repo.findAll();
+		for (VitalSigns vs : entitylist) {
+
 			dtolist.add(convertEntityToDto(vs));
-		}		
-        return dtolist;
-    }
-     
+		}
+		return dtolist;
+	}
+
 	@Override
-    public VitalSignsDto save(VitalSignsDto vitalSignsDto) {
-		
-      return  convertEntityToDto(repo.save(convertDtoToEntity(vitalSignsDto)));
-    }
-     
+	public VitalSignsDto save(VitalSignsDto vitalSignsDto) {
+
+		vitalSignsDto.setDateTime(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString());
+
+		VitalSigns exist = repo.findByPatientInfoId(vitalSignsDto.getPatientInfoId().getId());
+		if (exist != null) {
+			repo.delete(exist);
+		}
+		return convertEntityToDto(repo.save(convertDtoToEntity(vitalSignsDto)));
+	}
+
 	@Override
-    public VitalSignsDto get(Integer id) {
-		
-		
-		 return  convertEntityToDto( repo.findById(id).get());
-    }
-     
+	public VitalSignsDto get(Integer id) {
+
+		return convertEntityToDto(repo.findById(id).get());
+	}
+
 	@Override
-    public void delete(Integer id) {
-        repo.deleteById(id);
-    }
-	
-	
-	public UserDto getUserDtoFromUserMs(int id) {		
-		ResponseEntity<UserDto> response = restTemplate.getForEntity("http://localhost:8081/users/users/"+id,
+	public VitalSignsDto getByPatientId(Integer id) {
+
+		return convertEntityToDto(repo.findByPatientInfoId(id));
+	}
+
+	@Override
+	public void delete(Integer id) {
+		repo.deleteById(id);
+	}
+
+	public UserDto getUserDtoFromUserMs(int id) {
+		ResponseEntity<UserDto> response = restTemplate.getForEntity("http://localhost:8081/users/users/" + id,
 				UserDto.class);
 		return response.getBody();
 	}
-	
-	public PatientDetailsDto getPatientInfoDtoFromPatientMs(int id) {		
-		ResponseEntity<PatientDetailsDto> response = restTemplate.getForEntity("http://localhost:8084/patientdetails/"+id,
-				PatientDetailsDto.class);
+
+	public PatientDetailsDto getPatientInfoDtoFromPatientMs(int id) {
+		ResponseEntity<PatientDetailsDto> response = restTemplate
+				.getForEntity("http://localhost:8084/patientdetails/" + id, PatientDetailsDto.class);
 		return response.getBody();
 	}
-	
-	
+
 	public VitalSignsDto convertEntityToDto(VitalSigns vitalSigns) {
-		VitalSignsDto dto =new VitalSignsDto();
+		VitalSignsDto dto = new VitalSignsDto();
 		dto.setId(vitalSigns.getId());
 		dto.setBloodPressure(vitalSigns.getBloodPressure());
 		dto.setBodyTemperature(vitalSigns.getBodyTemperature());
@@ -79,15 +87,14 @@ public class VitalSignsServiceImpl implements VitalSignsService{
 		dto.setHeight(vitalSigns.getHeight());
 		dto.setRespirationRate(vitalSigns.getRespirationRate());
 		dto.setWeight(vitalSigns.getWeight());
-		
+
 		dto.setEmployeeId(getUserDtoFromUserMs(vitalSigns.getEmployeeId()));
 		dto.setPatientInfoId(getPatientInfoDtoFromPatientMs(vitalSigns.getPatientInfoId()));
-		
+
 		return dto;
 
 	}
-	
-	
+
 	public VitalSigns convertDtoToEntity(VitalSignsDto dto) {
 		VitalSigns vitalSigns = new VitalSigns();
 		vitalSigns.setId(dto.getId());
@@ -102,6 +109,5 @@ public class VitalSignsServiceImpl implements VitalSignsService{
 
 		return vitalSigns;
 	}
-	
-	
+
 }
