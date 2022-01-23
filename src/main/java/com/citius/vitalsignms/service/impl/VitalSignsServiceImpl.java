@@ -42,7 +42,7 @@ public class VitalSignsServiceImpl implements VitalSignsService {
 
 		vitalSignsDto.setDateTime(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString());
 
-		VitalSigns exist = repo.findByPatientInfoId(vitalSignsDto.getPatientInfoId().getId());
+		VitalSigns exist = repo.findByPatientInfoIdAndMeetingid(vitalSignsDto.getPatientInfoId().getId(),vitalSignsDto.getMeetingid());
 		if (exist != null) {
 			repo.delete(exist);
 		}
@@ -87,7 +87,7 @@ public class VitalSignsServiceImpl implements VitalSignsService {
 		dto.setHeight(vitalSigns.getHeight());
 		dto.setRespirationRate(vitalSigns.getRespirationRate());
 		dto.setWeight(vitalSigns.getWeight());
-
+        dto.setMeetingid(vitalSigns.getMeetingid());
 		dto.setEmployeeId(getUserDtoFromUserMs(vitalSigns.getEmployeeId()));
 		dto.setPatientInfoId(getPatientInfoDtoFromPatientMs(vitalSigns.getPatientInfoId()));
 
@@ -103,6 +103,7 @@ public class VitalSignsServiceImpl implements VitalSignsService {
 		vitalSigns.setDateTime(dto.getDateTime());
 		vitalSigns.setHeight(dto.getHeight());
 		vitalSigns.setRespirationRate(dto.getRespirationRate());
+		vitalSigns.setMeetingid(dto.getMeetingid());
 		vitalSigns.setWeight(dto.getWeight());
 		vitalSigns.setPatientInfoId(dto.getPatientInfoId().getId());
 		vitalSigns.setEmployeeId(dto.getEmployeeId().getId());

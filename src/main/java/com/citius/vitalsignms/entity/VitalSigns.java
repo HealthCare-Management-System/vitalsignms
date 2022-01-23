@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,10 +19,23 @@ public class VitalSigns {
 	private String bodyTemperature;
 	private String respirationRate;
 	private String dateTime;
+	private String meetingid;
 
 	private int patientInfoId;
 
 	private int employeeId;
+
+	
+	
+	
+	
+	public String getMeetingid() {
+		return meetingid;
+	}
+
+	public void setMeetingid(String meetingid) {
+		this.meetingid = meetingid;
+	}
 
 	public int getId() {
 		return id;
