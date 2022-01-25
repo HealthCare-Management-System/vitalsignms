@@ -40,11 +40,30 @@ public class VitalSignsController {
 	        return new ResponseEntity<VitalSignsDto>(HttpStatus.NOT_FOUND);
 	    }      
 	}
+	@GetMapping("/{id}/{meetingid}")
+	public ResponseEntity<VitalSignsDto> getbyMeetingId(@PathVariable Integer id,@PathVariable String meetingid) {
+	    try {
+	    	VitalSignsDto vitalSigns = service.getByMeetingId(id,meetingid);
+	        return new ResponseEntity<VitalSignsDto>(vitalSigns, HttpStatus.OK);
+	    } catch (NoSuchElementException e) {
+	        return new ResponseEntity<VitalSignsDto>(HttpStatus.NOT_FOUND);
+	    }      
+	}
 	
 	@GetMapping("/patient/{id}")
 	public ResponseEntity<VitalSignsDto> getByPatientId(@PathVariable Integer id) {
 	    try {
 	    	VitalSignsDto vitalSigns = service.getByPatientId(id);
+	        return new ResponseEntity<VitalSignsDto>(vitalSigns, HttpStatus.OK);
+	    } catch (NoSuchElementException e) {
+	        return new ResponseEntity<VitalSignsDto>(HttpStatus.NOT_FOUND);
+	    }      
+	}
+	
+	@GetMapping("/patient/{id}/{meetingid}")
+	public ResponseEntity<VitalSignsDto> getByPatientIdAndMeetingId(@PathVariable Integer id,@PathVariable String meetingid) {
+	    try {
+	    	VitalSignsDto vitalSigns = service.getByPatientIdAndByMeetingId(id,meetingid);
 	        return new ResponseEntity<VitalSignsDto>(vitalSigns, HttpStatus.OK);
 	    } catch (NoSuchElementException e) {
 	        return new ResponseEntity<VitalSignsDto>(HttpStatus.NOT_FOUND);

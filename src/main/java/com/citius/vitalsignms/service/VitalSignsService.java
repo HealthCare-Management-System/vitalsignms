@@ -12,7 +12,10 @@ public interface VitalSignsService {
 
 	public VitalSignsDto get(Integer id);
 	
+	public VitalSignsDto getByMeetingId(Integer id,String meetingid);
+	
 	public VitalSignsDto getByPatientId(Integer id);
+	public VitalSignsDto getByPatientIdAndByMeetingId(Integer id,String meetingid);
 
 	public void delete(Integer id);
 }

@@ -54,11 +54,22 @@ public class VitalSignsServiceImpl implements VitalSignsService {
 
 		return convertEntityToDto(repo.findById(id).get());
 	}
+	
+	@Override
+	public VitalSignsDto getByMeetingId(Integer id,String meetingid) {
+
+		return convertEntityToDto(repo.findByPatientInfoIdAndMeetingid(id,meetingid));
+	}
 
 	@Override
 	public VitalSignsDto getByPatientId(Integer id) {
 
 		return convertEntityToDto(repo.findByPatientInfoId(id));
+	}
+	
+	@Override
+	public VitalSignsDto getByPatientIdAndByMeetingId(Integer id,String meetingid) {
+		return convertEntityToDto(repo.findByPatientInfoIdAndMeetingid(id,meetingid));
 	}
 
 	@Override

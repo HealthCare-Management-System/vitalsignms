@@ -8,5 +8,6 @@ public interface VitalSignsRepo extends JpaRepository<VitalSigns, Integer> {
 
 	VitalSigns findByPatientInfoId(int id);
 	
+	
 	VitalSigns findByPatientInfoIdAndMeetingid(int id,String meetingid);
 }
