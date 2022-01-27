@@ -108,6 +108,28 @@ public class VitalSigns {
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
+
+	public VitalSigns() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public VitalSigns(int id, String height, String weight, String bloodPressure, String bodyTemperature,
+			String respirationRate, String dateTime, String meetingid, int patientInfoId, int employeeId) {
+		super();
+		this.id = id;
+		this.height = height;
+		this.weight = weight;
+		this.bloodPressure = bloodPressure;
+		this.bodyTemperature = bodyTemperature;
+		this.respirationRate = respirationRate;
+		this.dateTime = dateTime;
+		this.meetingid = meetingid;
+		this.patientInfoId = patientInfoId;
+		this.employeeId = employeeId;
+	}
     
+	
+	
 	
 }
